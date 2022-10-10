@@ -9,7 +9,7 @@ import io.restassured.specification.ResponseSpecification;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.testng.asserts.Assertion;
+
 
 import java.util.List;
 
@@ -18,20 +18,6 @@ import static org.hamcrest.Matchers.*;
 
 
 public class ZippoTest {
-
-    @Test
-    public void test() {
-
-        given()
-                     // hazırlık işlemlerini yapacağız (token,send body, parametreler)
-                .when()
-                     // link i ve metodu veriyoruz
-
-                .then()
-                     //  assertion ve verileri ele alma extract
-        ;
-
-    }
 
 
     @Test
@@ -43,8 +29,8 @@ public class ZippoTest {
                 .get("http://api.zippopotam.us/us/90210")
 
                 .then()
-                .log().body()   // log.all() bütün respons u gösterir
-                .statusCode(200) // status kontrolü
+                .log().body()
+                .statusCode(200)
         ;
 
     }
@@ -59,9 +45,9 @@ public class ZippoTest {
                 .get("http://api.zippopotam.us/us/90210")
 
                 .then()
-                .log().body()   // log.all() bütün respons u gösterir
-                .statusCode(200) // status kontrolü
-                .contentType(ContentType.JSON)  // hatalı durum kontrolünü yapalım
+                .log().body()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
         ;
     }
 
@@ -80,11 +66,6 @@ public class ZippoTest {
         ;
     }
 
-//    body.country  -> body("country",
-//    body.'post code' -> body("post code",
-//    body.'country abbreviation' -> body("country abbreviation"
-//    body.places[0].'place name' ->  body( "body.places[0].'place name'"
-//    body.places[0].state -> body("places[0].state"
 
     @Test
     public void bodyJsonPathTest2() {
@@ -96,7 +77,7 @@ public class ZippoTest {
 
                 .then()
                 .log().body()
-                .body("places[0].state", equalTo("California")) // birebir eşit mi
+                .body("places[0].state", equalTo("California"))
                 .statusCode(200)
         ;
     }
@@ -111,9 +92,9 @@ public class ZippoTest {
 
                 .then()
                 .log().body()
-                .body("places.'place name'", hasItem("Çaputçu Köyü")) //bir index verilmezse dizinin bütün elemanlarında arar
+                .body("places.'place name'", hasItem("Caputcu Koyu"))
                 .statusCode(200)
-                 //  "places.'place name'"  bu bilgiler "Çaputçu Köyü" bu item e shaip mi
+
         ;
     }
 
@@ -127,7 +108,7 @@ public class ZippoTest {
 
                 .then()
                 .log().body()
-                .body("places", hasSize(1)) // verilen path deki listin size kontrolü
+                .body("places", hasSize(1))
                 .statusCode(200)
         ;
     }
@@ -142,7 +123,7 @@ public class ZippoTest {
 
                 .then()
                 .log().body()
-                .body("places", hasSize(1)) // verilen path deki listin size kontrolü
+                .body("places", hasSize(1))
                 .body("places.state", hasItem("California"))
                 .body("places[0].'place name'", equalTo("Beverly Hills"))
                 .statusCode(200)
@@ -169,7 +150,6 @@ public class ZippoTest {
 
     @Test
     public void pathParamTest2() {
-       // 90210 dan 90213 kadar test sonuçlarında places in size nın hepsinde 1 gediğini test ediniz.
 
         for(int i=90210 ;i <=90213 ;i++ ) {
             given()
@@ -234,7 +214,7 @@ public class ZippoTest {
     @BeforeClass
     void Setup(){
 
-        // RestAssured kendi statik değişkeni tanımlı değer atanıyor.
+
         baseURI="https://gorest.co.in/public/v1";
 
         requestSpecs = new RequestSpecBuilder()
@@ -258,7 +238,7 @@ public class ZippoTest {
                 .spec(requestSpecs)
 
                 .when()
-                .get("/users")  // url nin başında http yoksa baseUri deki değer otomatik geliyor.
+                .get("/users")
 
                 .then()
                 .body("meta.pagination.page", equalTo(1) )
@@ -266,7 +246,7 @@ public class ZippoTest {
         ;
     }
 
-    // Json exract
+
     @Test
     public void extractingJsonPath() {
 
@@ -280,7 +260,7 @@ public class ZippoTest {
                 //.log().body()
                 .statusCode(200)
                 .extract().path("places[0].'place name'")
-                // extract metodu ile given ile başlayan satır, bir değer döndürür hale geldi, en sonda extract olmalı
+
         ;
 
         System.out.println("placeName = " + placeName);
@@ -298,7 +278,7 @@ public class ZippoTest {
                         .then()
                         //.log().body()
                         .statusCode(200)
-                        .extract().path("meta.pagination.limit");
+                        .extract().path("meta.pagination.limit")
                 ;
         System.out.println("limit = " + limit);
         Assert.assertEquals(limit,10,"test sonucu");
@@ -316,7 +296,7 @@ public class ZippoTest {
                         .then()
                         //.log().body()
                         .statusCode(200)
-                        .extract().path("data[2].id");
+                        .extract().path("data[2].id")
         ;
         System.out.println("id = " + id);
     }
@@ -333,7 +313,7 @@ public class ZippoTest {
                         .then()
                         //.log().body()
                         .statusCode(200)
-                        .extract().path("data.id") // data daki bütün idleri bir List şeklinde verir
+                        .extract().path("data.id")
         ;
 
         System.out.println("idler = " + idler);
@@ -352,7 +332,7 @@ public class ZippoTest {
                         .then()
                         //.log().body()
                         .statusCode(200)
-                        .extract().path("data.name") // data daki bütün idleri bir List şeklinde verir
+                        .extract().path("data.name")
                 ;
 
         System.out.println("isimler = " + isimler);
@@ -371,7 +351,7 @@ public class ZippoTest {
                         .then()
                         //.log().body()
                         .statusCode(200)
-                        .extract().response() // bütün body alındı
+                        .extract().response()
                 ;
 
 
@@ -385,7 +365,7 @@ public class ZippoTest {
     }
 
     @Test
-    public void extractingJsonPOJO() {  // POJO : JSon Object i  (Plain Old Java Object)
+    public void extractingJsonPOJO() {
 
         Location yer=
         given()
@@ -394,7 +374,7 @@ public class ZippoTest {
                 .get("http://api.zippopotam.us/us/90210")
 
                 .then()
-                .extract().as(Location.class); // Location şablocnu
+                .extract().as(Location.class)
         ;
 
         System.out.println("yer. = " + yer);

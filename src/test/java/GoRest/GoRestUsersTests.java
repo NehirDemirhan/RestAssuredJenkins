@@ -21,7 +21,7 @@ public class GoRestUsersTests {
 
     @BeforeClass
     void Setup(){
-        // RestAssured kendi statik değişkeni tanımlı değer atanıyor.
+
         baseURI="https://gorest.co.in/public/v2/";
     }
     public String getRandomName()
@@ -47,7 +47,7 @@ public class GoRestUsersTests {
 
         userID=
                 given()
-                        // api metoduna gitmeden önceki hazırlıklar : token, gidecek body, parametreleri
+
                         .header("Authorization","Bearer 523891d26e103bab0089022d20f1820be2999a7ad693304f560132559a2a152d")
                         .contentType(ContentType.JSON)
                         .body(newUser)
@@ -63,8 +63,6 @@ public class GoRestUsersTests {
                         .extract().jsonPath().getInt("id")
         ;
 
-        // path : class veya tip dönüşümüne imkan veremeyen direk veriyi verir. List<String> gibi
-        // jsonPath : class dönüşümüne ve tip dönüşümüne izin vererek , veriyi istediğimiz formatta verir.
 
         System.out.println("userID = " + userID);
     }
@@ -72,10 +70,9 @@ public class GoRestUsersTests {
     @Test(dependsOnMethods = "createUserObject", priority = 1)
     public void updateUserObject()
     {
-//        Map<String, String> updateUser=new HashMap<>();
-//        updateUser.put("name","ismet temur");
+//
 
-         newUser.setName("ismet temur");
+         newUser.setName("nehir demirhan");
 
                 given()
                         .header("Authorization","Bearer 523891d26e103bab0089022d20f1820be2999a7ad693304f560132559a2a152d")
@@ -90,7 +87,7 @@ public class GoRestUsersTests {
                         .then()
                         .log().body()
                         .statusCode(200)
-                        .body("name", equalTo("ismet temur"))
+                        .body("name", equalTo("nehir demirhan"))
                 ;
     }
 
@@ -165,14 +162,14 @@ public class GoRestUsersTests {
                 .extract().response()
         ;
 
-        // perşembe veya pazartesi, veya salı yapılacak...
-        // TODO : 3 usersın id sini alınız (path ve jsonPath ile ayrı ayrı yapınız)
+
+        // *** 3 userın id sini al (path ve jsonPath ile ayrı ayrı )
         int idUser3path= response.path("[2].id");
         int idUser3JsonPath = response.jsonPath().getInt("[2].id");
         System.out.println("idUser3path = " + idUser3path);
         System.out.println("idUser3JsonPath = " + idUser3JsonPath);
 
-        // TODO : Tüm gelen veriyi bir nesneye atınız (google araştırması)
+
         User[] usersPath=response.as(User[].class);
         System.out.println("Arrays.toString(usersPath) = " + Arrays.toString(usersPath));
 
@@ -184,7 +181,7 @@ public class GoRestUsersTests {
     @Test
     public void getUserByIDExtract()
     {
-        // TODO : GetUserByID testinde dönen user ı bir nesneye atınız.
+        // *** GetUserByID testinde dönen user ı bir nesneye at.
         User user=
         given()
                 .header("Authorization","Bearer 523891d26e103bab0089022d20f1820be2999a7ad693304f560132559a2a152d")
@@ -224,19 +221,8 @@ public class GoRestUsersTests {
                                                                                         // nesneye ödnüştürebiliriz.
         System.out.println("dataUsers = " + dataUsers);
 
-        // Daha önceki örneklerde (as) Clas dönüşümleri için tüm yapıya karşılık gelen
-        // gereken tüm classları yazarak dönüştürüp istediğimiz elemanlara ulaşıyorduk.
-        // Burada ise(JsonPath) aradaki bir veriyi clasa dönüştürerek bir list olarak almamıza
-        // imkan veren JSONPATH i kullandık.Böylece tek class ise veri alınmış oldu
-        // diğer class lara gerek kalmadan
-
-        // path : class veya tip dönüşümüne imkan veremeyen direk veriyi verir. List<String> gibi
-        // jsonPath : class dönüşümüne ve tip dönüşümüne izin vererek , veriyi istediğimiz formatta verir.
 
     }
-
-
-
 
 
 
@@ -248,7 +234,7 @@ public class GoRestUsersTests {
     {
         int userID=
                 given()
-                        // api metoduna gitmeden önceki hazırlıklar : token, gidecek body, parametreleri
+
                         .header("Authorization","Bearer 523891d26e103bab0089022d20f1820be2999a7ad693304f560132559a2a152d")
                         .contentType(ContentType.JSON)
                         .body("{\"name\":\""+getRandomName()+"\", \"gender\":\"male\", \"email\":\""+ getRandomEmail()+"\", \"status\":\"active\"}")
@@ -277,7 +263,7 @@ public class GoRestUsersTests {
 
         int userID=
                 given()
-                        // api metoduna gitmeden önceki hazırlıklar : token, gidecek body, parametreleri
+
                         .header("Authorization","Bearer 523891d26e103bab0089022d20f1820be2999a7ad693304f560132559a2a152d")
                         .contentType(ContentType.JSON)
                         .body(newUser)
